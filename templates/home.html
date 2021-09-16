@@ -1,10 +1,37 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-    
-</body>
-</html>
+{% extends 'base.html' %}
+
+{% block content %}
+  
+<div class="container-fluid mt-3">
+    <div class="row">
+        <div class="col-2">
+            <div class="list-group">
+                <a href="" class="list-group-item list-group-item-action active">Categories</a>
+                {% for cat in categories %}
+                  <a href="{% url 'category' cat.slug %}" class="list-group-item list-group-item-action">{{cat.title}}</a>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="col-10">
+            <div class="row">
+                {% for pro in products %}
+                  <div class="col-3">
+                      <div class="card">
+                          <img src="{{pro.image.url}}" alt="" class="card-img-top" style="object-fit: contain; height: 220px;">
+                          <div class="card-body">
+                              <h5>{{pro.title}}</h5>
+                              <p class="small">{{pro.category}}</p>
+                              <h4>₹ {{pro.discount_price}} <del>₹ {{pro.price}}</del></h4>
+                              <a href="{% url 'view' pro.id pro.slug %}" class="btn btn-warning">View</a>
+                              <a href="{% url 'add' pro.id %}" class="btn btn-success">Add To Cart</a>
+                          </div>
+                      </div>
+                  </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
