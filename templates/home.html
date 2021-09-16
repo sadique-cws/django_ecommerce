@@ -2,6 +2,7 @@
 
 {% block content %}
     <div class="container-fluid mt-4">
+<<<<<<< HEAD
     <div class="row">
         <div class="col-lg-2">
             <div class="list-group">
@@ -30,3 +31,36 @@
     </div>
     </div>
 {% endblock  %}
+=======
+        <div class="row">
+            <div class="col-2">
+                <div class="list-group">
+                    <a href="" class="list-group-item list-group-item-action active">Categories</a>
+                    {% for cat in categories  %}
+                        <a href="{% url 'category' cat.slug %}" class="list-group-item list-group-item-action">{{ cat.title }}</a>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="col-10">
+                <div class="row">
+                   {% for product in products %}
+                         <div class="col-3">
+                            <div class="card">
+                                <img src="{{ product.image.url }}" class="card-img-top" style="object-fit: contain;height: 240px" alt="">
+                                <div class="card-body">
+                                    <h2 class="h5">{{ product.title }}</h2>
+                                    <p class="small">{{ product.category }}</p>
+                                    <h4>Rs. {{ product.discount_price }} <del>{{ product.price }}</del></h4>
+                                    <a href="{% url 'view' product.id product.slug %}" class="btn btn-warning">View</a>
+                                    <a href="{% url 'addCart' product.id %}" class="btn btn-success">Add to Cart</a>
+                                </div>
+                            </div>
+                        </div>
+                   {% endfor %}
+
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+>>>>>>> bebc118aedb8f3704a042e0116b338ae2354bea4
