@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models.enums import Choices
 from django.shortcuts import reverse
 from django.conf import  settings
 
@@ -15,7 +16,7 @@ STATE_CHOICE = (
 )
 
 CITY_CHOICE = (
-    ("PUR","Purnea")
+    ("PUR","Purnea"),
 )
 ADDRESS_TYPE = (
     ("H","home"),
@@ -49,7 +50,7 @@ class Brand(models.Model):
 class Item(models.Model):
     title  = models.CharField(max_length=200)
     category = models.ForeignKey(Category,on_delete=models.CASCADE)
-    brand = models.ForeignKey(Brand,on_delete=models.SET_NULL)
+    brand = models.ForeignKey(Brand,on_delete=models.SET_NULL,null=True)
     label = models.CharField(choices=LABEL_CHOICE,max_length=5)
     slug = models.SlugField()
     description = models.TextField()
@@ -85,7 +86,7 @@ class Address(models.Model):
     state =models.CharField(choices=STATE_CHOICE,max_length=4)
     landmark = models.CharField(max_length=100)
     alternative_no = models.IntegerField(blank=True,null=True)
-    address_typr = models.CharField(max_length=2,choices=ADDRESS_TYPE)
+    address_type = models.CharField(max_length=2,choices=ADDRESS_TYPE)
     default = models.BooleanField(default=False)
 
     def __str__(self):
@@ -111,7 +112,7 @@ class Order(models.Model):
     ref_code = models.CharField(max_length=200)
     item = models.ManyToManyField(OrderItem)
     start_date = models.DateTimeField(auto_now_add=True)
-    ordered_data  = models.DateTimeField()
+    ordered_date  = models.DateTimeField()
     address = models.ForeignKey(Address,on_delete=models.SET_NULL,blank=True,null=True)
     payment = models.ForeignKey(Payment,on_delete=models.SET_NULL,blank=True,null=True)
     ordered = models.BooleanField(default=False)
@@ -121,7 +122,6 @@ class Order(models.Model):
 
     def __str__(self):
         return self.user.username
-
 
 
 
