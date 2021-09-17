@@ -6,14 +6,6 @@ from django.contrib.auth.decorators import login_required
 def homepages(req):
     return render(req,"home.html",{
         'categories':Category.objects.all(),
-<<<<<<< HEAD
-        'products':Item.objects.all(),
-        
-
-    })
-
-  
-=======
         'products' : Item.objects.all()
     })
 
@@ -39,4 +31,3 @@ def category(req,cat_slug):
         'categories': Category.objects.all(),
         'products': Item.objects.filter(category__slug=cat_slug)
     })
->>>>>>> bebc118aedb8f3704a042e0116b338ae2354bea4
