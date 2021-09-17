@@ -1,95 +1,37 @@
 {% extends 'base.html' %}
 
-
 {% block content %}
-
-<div class="container-fluid mt-2">
+  
+<div class="container-fluid mt-3">
     <div class="row">
-        <div class="col-lg-2">
+        <div class="col-2">
             <div class="list-group">
-                <a href="" class="list-group-item list-group-item bg-warning text-white ">Category</a>
-
+                <a href="" class="list-group-item list-group-item-action active">Categories</a>
                 {% for cat in categories %}
-                    <a href="" class="list-group-item list-group-item ">{{ cat.title }}</a>
+                  <a href="{% url 'category' cat.slug %}" class="list-group-item list-group-item-action">{{cat.title}}</a>
                 {% endfor %}
             </div>
         </div>
-
-        <div class="col-lg-10">
+        <div class="col-10">
             <div class="row">
-                {% for product in products %}
-                    <div class="col-lg-3">
-                    <div class="card">
-                    <img src="{{ product.image.url }}" alt="" class="card-img-top">
-                        <div class="card-body">
-                        <h2 class="text-truncate" >{{ product.title}}</h2>
-                        <p class="lead"><del> {{ product.price }} </del> {{ product.discount_price}}</p>
-                        <a href="" class="btn btn-warning">Add To Cart</a>
-                        <a href="" class="btn btn-success">By Now</a>
-                        
-                        
-                        
-                        </div>
-                    </div>                    
-                    </div>
+                {% for pro in products %}
+                  <div class="col-3">
+                      <div class="card">
+                          <img src="{{pro.image.url}}" alt="" class="card-img-top" style="object-fit: contain; height: 220px;">
+                          <div class="card-body">
+                              <h5>{{pro.title}}</h5>
+                              <p class="small">{{pro.category}}</p>
+                              <h4>₹ {{pro.discount_price}} <del>₹ {{pro.price}}</del></h4>
+                              <a href="{% url 'view' pro.id pro.slug %}" class="btn btn-warning">View</a>
+                              <a href="{% url 'add' pro.id %}" class="btn btn-success">Add To Cart</a>
+                          </div>
+                      </div>
+                  </div>
                 {% endfor %}
             </div>
         </div>
     </div>
 </div>
 
-{% endblock  %}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-{% comment %} {% block content %}
-    <div class="container-fluid mt-4">
-    <div class="row">
-        <div class="col-lg-2">
-            <div class="list-group">
-                  <a href="" class="list-group-item list-group-item-action active">Categories</a>
-            {% for cat in products %}
-
-                <a href="" class="list-group-item list-group-item-action ">{{ cat.title }}</a>
-           
-            {% endfor %}
-            </div>
-        </div>
-        </div>
-
-
-        <div class="col-lg-12">
-            <div class="row">
-            {% for product in products %}
-                <div class="col-lg-3">
-                    <div class="card">
-                        <img src="{{ product.image.url }}" class="card-img-top" alt="">
-                        <div class="card-body">
-                        <h2>Painting</h2>
-                        </div>
-                    </div>
-                </div>
-            {% endfor %}
-            </div>
-        </div>
-
-
-    </div>
-    </div>
-{% endblock  %} {% endcomment %}
+{% endblock %}

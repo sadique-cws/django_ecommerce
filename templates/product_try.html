@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% block content %}
+  
+
+<div class="container mt-3">
+    <div class="row">
+        <div class="col-lg-4">
+            <div class="card sticky-top border-0">
+                <img src="{{pro.image.url}}" alt="" class="card-img">
+
+                <div class="card-body">
+                    <div class="mt-4">
+                        <button type="button" class="btn btn-outline-success w-100 fs-4" style="height: 50px;">Add To Cart <i class="bi bi-cart-check"></i></button>
+                        <button type="button" class="btn btn-outline-primary w-100 mt-3 fs-4" style="height: 50px;">Buy Now <i class="bi bi-bag-check-fill"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-8">
+            <div class="card border-primary">
+                <div class="card-header bg-primary text-white"><h2>Product Details</h2></div>
+
+                <div class="card-body">
+                    <table class="table table-borderless">
+                        <tr>
+                            <th class="fs-5">Title</th>
+                            <td class="fs-5">{{pro.title}}</td>
+                        </tr>
+        
+                        <tr>
+                            <th class="fs-5">Category</th>
+                            <td class="fs-5">{{ pro.category.title }}</td>
+                        </tr>
+        
+                        <tr>
+                            <th class="fs-5">Brand</th>
+                            <td class="fs-5">{{ pro.brand.brand_name }}</td>
+                        </tr>
+        
+                        <tr>
+                            <th class="fs-5">Label</th>
+                            <td class="fs-5">{{pro.label}}</td>
+                        </tr>
+        
+                        <tr>
+                            <th class="fs-5">MRP</th>
+                            <td class="text-muted fs-5"><del>₹ {{ pro.price }}</del></td>
+                        </tr>
+        
+                        <tr>
+                            <th class="fs-5">Offer Price</th>
+                            <td class="fs-5"><h5>₹ {{pro.discount_price}}</h5></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <div class="card border-primary my-5 ">
+                <div class="card-header bg-primary text-white"><h2>Description</h2></div>
+
+                <div class="card-body">
+                    <p class="lead">{{pro.description}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
