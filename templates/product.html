@@ -1,80 +1,68 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 
 {% block content %}
   
 
-<div class="container mt-4">
+<div class="container mt-3">
     <div class="row">
-        <div class="col-9">
-            <table class="table">
-                <tr>
-                    <th>Title</th>
-                    <td>{{ pro.title }}</td>
-                </tr>
+        <div class="col-lg-4">
+            <div class="card sticky-top border-0">
+                <img src="{{product.image.url}}" alt="" class="card-img">
 
-                <tr>
-                    <th>Category</th>
-                    <td>{{ pro.category.title }}</td>
-                </tr>
-
-                <tr>
-                    <th>Brand</th>
-                    <td>{{ pro.brand.brand_name }}</td>
-                </tr>
-
-                <tr>
-                    <th>Label</th>
-                    <td>{{pro.label}}</td>
-                </tr>
-
-                <tr>
-                    <th>MRP</th>
-                    <td class="text-muted"><del>₹ {{ pro.price }}</del></td>
-                </tr>
-
-                <tr>
-                    <th>Offer Price</th>
-                    <td><h5>₹ {{pro.discount_price}}</h5></td>
-                </tr>
-            </table>
-            <div class="card">
-                <div class="card-header">Description</div>
                 <div class="card-body">
-                    <p class="lead">{{pro.description}}</p>
+                    <div class="mt-4">
+                        <button type="button" class="btn btn-outline-success w-100 fs-4" style="height: 50px;">Add To Cart <i class="bi bi-cart-check"></i></button>
+                        <button type="button" class="btn btn-outline-primary w-100 mt-3 fs-4" style="height: 50px;">Buy Now <i class="bi bi-bag-check-fill"></i></button>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="col-3">
-            <div class="card sticky-top">
-                <img src="{{pro.image.url}}" alt="" class="card-img-top">
+
+        <div class="col-lg-8">
+            <div class="card border-primary">
+                <div class="card-header bg-primary text-white"><h2>Product Details</h2></div>
+
+                <div class="card-body">
+                    <table class="table table-borderless">
+                        <tr>
+                            <th class="fs-5">Title</th>
+                            <td class="fs-5">{{product.title}}</td>
+                        </tr>
+        
+                        <tr>
+                            <th class="fs-5">Category</th>
+                            <td class="fs-5">{{ product.category.title }}</td>
+                        </tr>
+        
+                        <tr>
+                            <th class="fs-5">Brand</th>
+                            <td class="fs-5">{{ product.brand.brand_name }}</td>
+                        </tr>
+        
+                        <tr>
+                            <th class="fs-5">Label</th>
+                            <td class="fs-5">{{product.label}}</td>
+                        </tr>
+        
+                        <tr>
+                            <th class="fs-5">MRP</th>
+                            <td class="text-muted fs-5"><del>₹ {{ product.price }}</del></td>
+                        </tr>
+        
+                        <tr>
+                            <th class="fs-5">Offer Price</th>
+                            <td class="fs-5"><h5>₹ {{product.discount_price}}</h5></td>
+                        </tr>
+                    </table>
+                </div>
             </div>
 
-            <div class="mt-3 row px-3">
-                <a href="{% url 'add' pro.id %}" class="btn btn-success col ">Add to Cart</a>
-                <a href="" class="btn btn-primary col ms-2">Wishlist</a>
-            </div>
-        </div>
-    </div>
+            <div class="card border-primary my-5 ">
+                <div class="card-header bg-primary text-white"><h2>Description</h2></div>
 
-    <div class="row">
-        <div class="container mt-5">
-            <h4 class="blockquote">May also like</h4>
-
-            <div class="row">
-                {% for pro in related_products %}
-                  <div class="col-3">
-                      <div class="card">
-                          <img src="{{pro.image.url}}" alt="" class="card-img-top">
-                          <div class="card-body">
-                              <h5>{{pro.title}}</h5>
-                              <p class="small">{{pro.category}}</p>
-                              <h4>₹ {{pro.discount_price}} <del>₹ {{pro.price}}</del></h4>
-                              <a href="{% url 'view' pro.id pro.slug %}" class="btn btn-warning">View</a>
-                              <a href="" class="btn btn-primary">Buy Now</a>
-                          </div>
-                      </div>
-                  </div>
-                {% endfor %}
+                <div class="card-body">
+                    <p class="lead">{{product.description}}</p>
+                </div>
             </div>
         </div>
     </div>
