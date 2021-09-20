@@ -75,6 +75,16 @@ class OrderItem(models.Model):
     def __str__(self):
         return  self.item.title
 
+    def get_total_amount(self):
+        return self.qty * self.item.price
+
+    def get_total_discount_amount(self):
+        return self.qty * self.item.discount_price
+        
+    def get_saving_amount(self):
+        return int(self.get_total_amount()) - int(self.get_total_discount_amount())
+
+
 class Address(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     name = models.CharField(max_length=200)
@@ -119,6 +129,40 @@ class Order(models.Model):
     coupon = models.ForeignKey(Coupon, on_delete=models.SET_NULL, blank=True, null=True)
     being_delivered = models.BooleanField(default=False)
     received = models.BooleanField(default=False)
+
+    def get_total(self):
+        total = 0
+
+        for oi in self.item.all():
+            total += oi.get_total_amount()
+        
+        return total
+    
+    def get_discount_total(self):
+        total = 0
+        for oi in self.item.all():
+            total += oi.get_total_discount_amount()
+        
+        return total
+    
+    def get_saving_total(self):
+        total = 0
+        for oi in self.item.all():
+            total += oi.get_saving_amount()
+        
+        return total
+
+    def get_tax(self):
+        total = self.get_discount_total()
+        return total * 0.18
+
+    def get_payable_amount(self):
+        total = 0
+        total = self.get_discount_total() + self.get_tax()
+
+        if self.coupon:
+            total -= self.coupon.amount
+        return total
 
     def __str__(self):
         return self.user.username

@@ -7,7 +7,6 @@
     <div class="row">
         <div class="col-9">
             <h3 class="fs-2">Your Cart</h3>
-            {% for pro in products  %}
                 {% for p in pro.item.all  %}
                
                 <div class="card d-flex">
@@ -18,7 +17,8 @@
                         <div class="col">
                             <h6>{{p.item.title}}</h6>
                             <p class="small"></p>
-                            <small>₹{{p.item.discount_price}} <del>₹{{p.item.price}}</del></small>
+                            <small>₹{{p.get_total_discount_amount}} <del>₹{{p.get_total_amount}}</del></small><br>
+                            <small class="text-success">Total saving : {{p.get_saving_amount}}</small>
                         </div>
                         <div class="col">
                             <a href="{% url 'removeCart' p.item.id %}" class="btn btn-danger">-</a>
@@ -31,28 +31,36 @@
                    </div>
                 </div>
                 {% endfor %}
-            {% endfor %}
         </div>
         <div class="col-3">
             <h2 class="fs-4">Amount Breakout</h2>
             <div class="list-group list-group-flush">
-                <a href="" class="list-group-item list-group-item-action">Total Amount <span class="float-end">Rs. 3000/-</span></a>
-                <a href="" class="list-group-item list-group-item-action">Tax (GST 10%) <span class="float-end">Rs. 200/-</span></a>
-                <a href="" class="list-group-item list-group-item-action bg-success text-white">Discount <span class="float-end">Rs. 200/-</span></a>
-                <a href="" class="list-group-item list-group-item-action fs-5"><span class="float-end fs-2 fw-bold">Rs. 200/-</span></a>
+                <a href="" class="list-group-item list-group-item-action">Total Amount <span class="float-end">Rs. {{pro.get_total}}/-</span></a>
+                <a href="" class="list-group-item list-group-item-action">Tax (GST 18%) <span class="float-end">Rs. {{pro.get_tax}}/-</span></a>
+                <a href="" class="list-group-item list-group-item-action bg-success text-white">Discount <span class="float-end">Rs. {{pro.get_saving_total}}/-</span></a>
+                {% if pro.coupon %}
+                    <a href="" class="list-group-item list-group-item-action bg-warning ">Coupon Discount <span class="float-end">Rs. {{pro.coupon.amount}}/-</span></a>
+                {% endif %}
+                 <a href="" class="list-group-item list-group-item-action fs-5"><span class="float-end fs-2 fw-bold">Rs. {{pro.get_payable_amount}}/-</span></a>
             </div>
             <div class="mt-3 row">
                 <a href="" class="btn btn-success col">Go Back</a>
                 <a href="" class="btn btn-danger col ms-2">Checkout</a>
             </div>
+            {% if pro.coupon == NULL %}
+              
+           
             <div class="card mt-5">
                 <div class="card-body p-0">
-                    <form action="" class="d-flex"> 
-                        <input type="text" placeholder="Enter Promo Code" class="form-control">
+                    <form action="{% url 'addCoupon' %}" method="POST" class="d-flex"> 
+                        {% csrf_token %}
+                        <input type="text" placeholder="Enter Promo Code" class="form-control" name="code">
                         <input type="submit" value="Add" class="btn btn-warning">
                     </form>
                 </div>
             </div>
+
+            {% endif %}
         </div>
     </div>
 </div>
