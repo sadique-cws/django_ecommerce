@@ -1,10 +1,54 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
 
-</body>
-</html>
+
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="card border-0">
+                    <div class="card-body">
+                        {% if address %}
+                        <h3>Saved Address</h3>
+                        {% endif %}
+                        <form action="{% url 'checkout' %}" method="POST">
+
+                            <div class="row mb-3">
+                                {% for add in address  %}
+                                <div class="col-6">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <h4>{{add.name}}</h4>
+                                            <p>{{add.contact}}, {{add.locality}}, {{add.street}} <br> {{add.get_city_display}} ({{add.get_state_display}}) - {{add.pincode}} 
+                                            <br>Landmarks: {{add.landmark}}</p>
+                                            <span class="bg-danger badge text-white">{{add.type}}</span>
+                                        </div>
+                                        <div class="card-footer">
+                                            <div class="form-check">
+                                                <input type="radio" class="form-check-input" onchange="this.form.submit()" name="saveAddressId" value="{{add.id}}"> 
+                                                <label for="" class="form-check-label">Select This Address</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                            <h3>Checkout</h3>
+
+                            {% csrf_token %}
+
+                            {{form|crispy}}
+
+                            <div class="mb-3">
+                                <input type="submit" class="btn btn-danger w-100" value="Payment Now">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4"></div>
+        </div>
+    </div>
+
+
+{% endblock %}

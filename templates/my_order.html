@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-9">
+            <h3 class="fs-2">Your Orders</h3>
+            {% if order %}
+                {% for pro in order %}
+                    <div class="card mb-3">
+                        <div class="card-header">
+                           <span class="float-start"> Ref_Code : {{pro.ref_code}}</span>
+                            <span class="float-end">date: {{pro.ordered_date}}</span>
+                        </div>
+                        <div class="card-body">
+                    {% for p in pro.item.all  %}
+                    <div class="card d-flex">
+                    <div class="row card-body">
+                            <div class="col-1">
+                                <img src="{{p.item.image.url}}" alt="" class="w-100">
+                            </div>
+                            <div class="col">
+                                <h6 class="mb-0">{{p.item.title}}</h6>
+                                <small>₹{{p.get_total_discount_amount}} <del>₹{{p.get_total_amount}}</del></small> 
+                                <small class="text-success fw-bold">Total saving : {{p.get_saving_amount}}</small>
+                            </div>
+                            <div class="col">
+                                <span>Quantity: {{p.qty}}</span>
+                            </div>
+                         
+                    </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                    <div class="card-footer">
+                        Total Amount {{pro.get_payable_amount}}
+                        {% if not pro.being_delivered %}
+                                <a href="" class="btn btn-danger float-end">Cancel</a>                                  
+                                {% else %}
+                                    <span class="float-end">Status: Processing </span>
+                                {% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+        </div>
+       
+    </div>
+{% else %}
+<div class="card">
+    <div class="card-body">
+        <h1>Sorry Sorry your Order is Empty </h1>
+        <a href="/" class="btn btn-success">Buy Products</a>
+    </div>
+</div>
+    {% endif %}
+
+</div>
+
+{% endblock  %}
