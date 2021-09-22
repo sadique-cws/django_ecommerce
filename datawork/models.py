@@ -99,8 +99,7 @@ class Address(models.Model):
     address_type = models.CharField(max_length=2,choices=ADDRESS_TYPE)
     default = models.BooleanField(default=False)
 
-    def __str__(self):
-        self.user.username
+    
 
 
 class Payment(models.Model):
