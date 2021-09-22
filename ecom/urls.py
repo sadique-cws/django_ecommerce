@@ -9,6 +9,7 @@ urlpatterns = [
     path('', homepage,name="home"),
     path('cart/', cart,name="cart"),
     path('search/', search,name="search"),
+    path('add-coupon/', addCoupon,name="addCoupon"),
     path('accounts/', include('allauth.urls')),
     path('add-to-cart/<int:id>/', addToCart,name="addCart"),
     path('remove-from-cart/<int:id>/', removeFromCart,name="removeCart"),

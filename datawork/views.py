@@ -20,9 +20,27 @@ def view_product(req,id,slug):
         'related_products':Item.objects.exclude(pk=id),
     })
 
+def addCoupon(req):
+    if req.method == "POST":
+        code = req.POST.get('code')
+        checkCode = Coupon.objects.filter(code=code).first()
+
+        if(checkCode):
+            order = Order.objects.filter(user=req.user,ordered=False).first()
+            order.coupon = checkCode
+            order.save()
+            messages.success(req,"Coupon applied successfully")
+        else:
+            messages.error(req,"Coupon invalid or expired")
+        
+        return redirect(cart)
+
+
+
+
 def cart(req):
     return render(req,"order_summary.html",{
-        'products' : Order.objects.filter(ordered=False, user=req.user)
+        'pro' : Order.objects.filter(ordered=False, user=req.user).first()
     })
 def search(req):
     return  render(req,"home.html",{
